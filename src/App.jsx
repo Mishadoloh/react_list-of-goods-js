@@ -16,8 +16,17 @@ export const goodsFromServer = [
 ];
 
 export const App = () => {
-  const [sortType, setSortType] = useState(null); // 'alphabet', 'length', or null
+  const [sortType, setSortType] = useState(null);
   const [reversed, setReversed] = useState(false);
+
+  // Handlers (✅ назви з дієслів)
+  const sortByAlphabet = () => setSortType('alphabet');
+  const sortByLength = () => setSortType('length');
+  const reverseOrder = () => setReversed(prev => !prev);
+  const resetOrder = () => {
+    setSortType(null);
+    setReversed(false);
+  };
 
   const visibleGoods = useMemo(() => {
     const sortedGoods = [...goodsFromServer];
@@ -49,7 +58,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-info ${sortType === 'alphabet' ? '' : 'is-light'}`}
-          onClick={() => setSortType('alphabet')}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -57,7 +66,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-success ${sortType === 'length' ? '' : 'is-light'}`}
-          onClick={() => setSortType('length')}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -65,7 +74,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-warning ${reversed ? '' : 'is-light'}`}
-          onClick={() => setReversed(prev => !prev)}
+          onClick={reverseOrder}
         >
           Reverse
         </button>
@@ -74,10 +83,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={() => {
-              setSortType(null);
-              setReversed(false);
-            }}
+            onClick={resetOrder}
           >
             Reset
           </button>
